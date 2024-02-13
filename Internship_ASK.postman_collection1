@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "128b413f-f6a7-47af-b694-a80659748d67",
+		"name": "Internship_ASK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30033491",
+		"_collection_link": "https://cloudy-rocket-2995.postman.co/workspace/f2fa6b2c-331a-4561-b509-1a777e70cf81/collection/30033491-128b413f-f6a7-47af-b694-a80659748d67?action=share&source=collection_link&creator=30033491"
+	},
+	"item": [
+		{
+			"name": "Sing_in_as_Teacher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sing_in_as_Teacher\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"teacher_token\", jsonData.token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbGVuaHlkZTgyQGdtYWlsLmNvbSIsImlhdCI6MTcwNzM1OTg3MywiZXhwIjoxNzA3NDQ2MjczfQ.mdNJovU9mQUgpm2TUv6teP3nKcgA0VQG6EwT8dvBlnI\"",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"helenhyde82@gmail.com\",\r\n  \"password\": \"789456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}sign-in",
+					"host": [
+						"{{bfseUrl}}sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateNewQuiz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"quiz_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Demo Quiz Jane\",\r\n  \"totalScore\": 18,\r\n  \"passingPercentage\": 75,\r\n  \"showStopperQuestion\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"TEXTUAL\",\r\n      \"question\": \"What is your name?\",\r\n      \"score\": 5\r\n    },\r\n    {\r\n      \"type\": \"SINGLE_CHOICE\",\r\n      \"question\": \"Which city is city largest in California?\",\r\n      \"score\": 7,\r\n      \"answer\": 2,\r\n      \"hasOtherOption\": false,\r\n      \"options\": [\r\n        \"San Francisco\",\r\n        \"Sacramento\",\r\n        \"Los Angeles\",\r\n        \"Redding\"\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"MULTIPLE_CHOICE\",\r\n      \"question\": \"Who was apple founded by?\",\r\n      \"score\": 6,\r\n      \"answers\": [\r\n        0,\r\n        1,\r\n        2\r\n      ],\r\n      \"hasOtherOption\": true,\r\n      \"options\": [\r\n        \"Steve Jobs\",\r\n        \"Steve Wozniak\",\r\n        \"Ronald Wayne\",\r\n        \"Ronald Reagan\"\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}quiz",
+					"host": [
+						"{{bfseUrl}}quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Quiz",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Demo Quiz jane\",\r\n  \"totalScore\": 18,\r\n  \"passingPercentage\": 75,\r\n  \"showStopperQuestion\": 1,\r\n  \"questions\": [\r\n    {\r\n      \"type\": \"TEXTUAL\",\r\n      \"question\": \"What is your name?\",\r\n      \"score\": 5\r\n    },\r\n    {\r\n      \"type\": \"SINGLE_CHOICE\",\r\n      \"question\": \"Which city is city largest in California?\",\r\n      \"score\": 7,\r\n      \"answer\": 2,\r\n      \"hasOtherOption\": false,\r\n      \"options\": [\r\n        \"San Francisco\",\r\n        \"Sacramento\",\r\n        \"Los Angeles\",\r\n        \"Redding\"\r\n      ]\r\n    },\r\n    {\r\n      \"type\": \"MULTIPLE_CHOICE\",\r\n      \"question\": \"Who was apple founded by?\",\r\n      \"score\": 6,\r\n      \"answers\": [\r\n        0,\r\n        1,\r\n        2\r\n      ],\r\n      \"hasOtherOption\": true,\r\n      \"options\": [\r\n        \"Steve Jobs\",\r\n        \"Steve Wozniak\",\r\n        \"Ronald Wayne\",\r\n        \"Ronald Reagan\"\r\n      ]\r\n    }\r\n  ],\r\n  \"id\": {{quiz_id}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}quiz",
+					"host": [
+						"{{bfseUrl}}quiz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sing_in_as_Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"student_token\", jsonData.token);\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"student_id\", jsonData.user.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"5525324@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}sign-in",
+					"host": [
+						"{{bfseUrl}}sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assignment_Creat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"assignment_id\", jsonData[0].id);\r",
+							"\r",
+							"pm.test(\"Quiz_Name\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Demo Quiz jane\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quizId\": {{quiz_id}},\r\n  \"userIds\": [{{student_id}}]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}assignment",
+					"host": [
+						"{{bfseUrl}}assignment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "My_Assignments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"var assignment_id = pm.environment.get(\"assignment_id\");\r",
+							"var assignment_idFound = false;\r",
+							"\r",
+							"for (var i = 0; i < responseData.length; i++) {\r",
+							"    if (responseData[i].id === assignment_id) {\r",
+							"        assignment_idFound = true;\r",
+							"        break;\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test(\"assignment_id is present in JSON response\", function(){\r",
+							"    pm.expect(assignment_idFound).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{student_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"id\": {{student_id}},\r\n    \"quiz\": {\r\n      \"name\": \"Demo Quiz Jane\",\r\n      \"showStopperQuestion\": 1,\r\n      \"questions\": [\r\n        {\r\n          \"type\": \"TEXTUAL\",\r\n          \"question\": \"What is your name?\"\r\n        },\r\n        {\r\n          \"type\": \"SINGLE_CHOICE\",\r\n          \"question\": \"Which city is city largest in California?\",\r\n          \"hasOtherOption\": false,\r\n          \"options\": [\r\n            \"San Francisco\",\r\n            \"Sacramento\",\r\n            \"Los Angeles\",\r\n            \"Redding\"\r\n          ]\r\n        },\r\n        {\r\n          \"type\": \"MULTIPLE_CHOICE\",\r\n          \"question\": \"Who was apple founded by?\",\r\n          \"hasOtherOption\": true,\r\n          \"options\": [\r\n            \"Steve Jobs\",\r\n            \"Steve Wozniak\",\r\n            \"Ronald Wayne\",\r\n            \"Ronald Reagan\"\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    \"createdAt\": \"2018-04-03T15:47:02.524Z\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}my-assignments",
+					"host": [
+						"{{bfseUrl}}my-assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubmitAssignment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{student_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"assignmentId\": {{assignment_id}},\r\n  \"answers\": \r\n[{\"answer\": null, \"textAnswer\": \"dgfz\"}, {\"answer\": 1, \"textAnswer\": \"\"}, {\"answer\": [1], \"textAnswer\": \"\"}]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}submit-assignment",
+					"host": [
+						"{{bfseUrl}}submit-assignment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GradeAssignment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"summary\": \"Summary from teacher\",\r\n  \"result\": \"PASSED\",\r\n  \"grades\": [\r\n    {\r\n      \"comment\": \"Teacher comment\",\r\n      \"additionalScore\": 5\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}assignment/35057",
+					"host": [
+						"{{bfseUrl}}assignment"
+					],
+					"path": [
+						"35057"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MyGrades",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{student_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"id\": {{assignment_id}},\r\n    \"quiz\": {\r\n      \"name\": \"Demo Quiz\",\r\n      \"totalScore\": 18,\r\n      \"passingPercentage\": 75,\r\n      \"showStopperQuestion\": 1,\r\n      \"questions\": [\r\n        {\r\n          \"type\": \"TEXTUAL\",\r\n          \"question\": \"What is your name?\",\r\n          \"score\": 5\r\n        },\r\n        {\r\n          \"type\": \"SINGLE_CHOICE\",\r\n          \"question\": \"Which city is city largest in California?\",\r\n          \"score\": 7,\r\n          \"answer\": 2,\r\n          \"hasOtherOption\": false,\r\n          \"options\": [\r\n            \"San Francisco\",\r\n            \"Sacramento\",\r\n            \"Los Angeles\",\r\n            \"Redding\"\r\n          ]\r\n        },\r\n        {\r\n          \"type\": \"MULTIPLE_CHOICE\",\r\n          \"question\": \"Who was apple founded by?\",\r\n          \"score\": 6,\r\n          \"answers\": [\r\n            0,\r\n            1,\r\n            2\r\n          ],\r\n          \"hasOtherOption\": true,\r\n          \"options\": [\r\n            \"Steve Jobs\",\r\n            \"Steve Wozniak\",\r\n            \"Ronald Wayne\",\r\n            \"Ronald Reagan\"\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    \"assignmentGroupID\": \"2250e42a-52b1-451e-8de6-788fb561a9de\",\r\n    \"status\": \"ASSIGNED\",\r\n    \"result\": \"PASSED\",\r\n    \"gradedBy\": \"NONE\",\r\n    \"answers\": [\r\n      {\r\n        \"answer\": [\r\n          0,\r\n          2,\r\n          3,\r\n          4\r\n        ],\r\n        \"textAnswer\": \"This is my answer\"\r\n      }\r\n    ],\r\n    \"scores\": [\r\n      0,\r\n      2,\r\n      3\r\n    ],\r\n    \"additionalScores\": [\r\n      0,\r\n      2,\r\n      3\r\n    ],\r\n    \"comments\": [\r\n      \"Comment 1\",\r\n      \"Comment 2\"\r\n    ],\r\n    \"summary\": \"This is quiz summary\",\r\n    \"submittedAt\": \"2018-04-03T15:47:02.524Z\",\r\n    \"gradedAt\": \"2018-04-03T15:47:02.524Z\"\r\n  },\r\n  {\r\n    \"id\": 12,\r\n    \"quiz\": {\r\n      \"name\": \"Demo Quiz\",\r\n      \"showStopperQuestion\": 1,\r\n      \"questions\": [\r\n        {\r\n          \"type\": \"TEXTUAL\",\r\n          \"question\": \"What is your name?\"\r\n        },\r\n        {\r\n          \"type\": \"SINGLE_CHOICE\",\r\n          \"question\": \"Which city is city largest in California?\",\r\n          \"hasOtherOption\": false,\r\n          \"options\": [\r\n            \"San Francisco\",\r\n            \"Sacramento\",\r\n            \"Los Angeles\",\r\n            \"Redding\"\r\n          ]\r\n        },\r\n        {\r\n          \"type\": \"MULTIPLE_CHOICE\",\r\n          \"question\": \"Who was apple founded by?\",\r\n          \"hasOtherOption\": true,\r\n          \"options\": [\r\n            \"Steve Jobs\",\r\n            \"Steve Wozniak\",\r\n            \"Ronald Wayne\",\r\n            \"Ronald Reagan\"\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    \"createdAt\": \"2018-04-03T15:47:02.524Z\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}my-grades",
+					"host": [
+						"{{bfseUrl}}my-grades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAssignmentGroupId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}assignment/{{assignment_id}}",
+					"host": [
+						"{{bfseUrl}}assignment"
+					],
+					"path": [
+						"{{assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteQuiz",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{teacher_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{bfseUrl}}quiz/{{quiz_id}}",
+					"host": [
+						"{{bfseUrl}}quiz"
+					],
+					"path": [
+						"{{quiz_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
